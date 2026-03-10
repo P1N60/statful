@@ -140,6 +140,15 @@
             background: #fff;
         }
 
+        .btn-disabled {
+            border-color: var(--line);
+            color: var(--muted);
+            background: #fff;
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         .stack {
             display: grid;
             gap: 14px;
@@ -193,12 +202,268 @@
             text-align: center;
         }
 
+        /* Agent Catalog */
+        .catalog-section {
+            margin-top: 26px;
+        }
+
+        .catalog-section h2 {
+            font-size: 1.6rem;
+            margin: 0 0 18px;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .pricing-card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 26px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            outline: 2px solid var(--primary);
+        }
+
+        .pricing-card .badge {
+            display: inline-block;
+            background: var(--primary);
+            color: #f9fffd;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 20px;
+            width: fit-content;
+        }
+
+        .pricing-card h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .pricing-card .price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        .pricing-card .price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        .pricing-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.95rem;
+            flex: 1;
+        }
+
+        .pricing-card ul {
+            margin: 0;
+            padding-left: 18px;
+            color: var(--muted);
+            font-size: 0.93rem;
+        }
+
+        .pricing-card ul li {
+            margin-bottom: 4px;
+        }
+
+        .comparison-table {
+            margin-top: 22px;
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .comparison-table th {
+            background: var(--bg-accent);
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--text);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table td {
+            color: var(--muted);
+            font-size: 0.93rem;
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .check {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .dash {
+            color: var(--line);
+        }
+
+        /* Customer Dashboard */
+        .dashboard-section {
+            margin-top: 26px;
+        }
+
+        .dashboard-section h2 {
+            font-size: 1.6rem;
+            margin: 0 0 18px;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .dash-panel {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 22px;
+        }
+
+        .dash-panel h3 {
+            margin: 0 0 14px;
+            font-size: 1.05rem;
+            font-weight: 700;
+        }
+
+        .agent-status-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .agent-status-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 10px 14px;
+        }
+
+        .agent-status-row .agent-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .status-pill {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .status-active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-idle {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-pending {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .decisions-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .decision-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 10px 14px;
+        }
+
+        .decision-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: var(--bg-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .decision-body {
+            flex: 1;
+        }
+
+        .decision-body .decision-title {
+            font-size: 0.93rem;
+            font-weight: 600;
+            margin: 0 0 2px;
+        }
+
+        .decision-body .decision-meta {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin: 0;
+        }
+
         @media (max-width: 900px) {
             .hero {
                 grid-template-columns: 1fr;
             }
 
             .sections {
+                grid-template-columns: 1fr;
+            }
+
+            .catalog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
                 grid-template-columns: 1fr;
             }
         }
@@ -214,7 +479,9 @@
             <nav class="nav" aria-label="Main navigation">
                 <a href="#product">Product</a>
                 <a href="#agents">Agents</a>
+                <a href="#catalog">Catalog</a>
                 <a href="#pricing">Pricing</a>
+                <a href="#dashboard">Dashboard</a>
             </nav>
         </header>
 
@@ -267,6 +534,145 @@
                 <h2>Built for Iteration</h2>
                 <p>Statful itself is developed by the same agent workflow model used by customers, enabling rapid improvement loops.</p>
             </article>
+        </section>
+
+        <!-- Agent Catalog -->
+        <section class="catalog-section" id="catalog" aria-labelledby="catalog-heading">
+            <h2 id="catalog-heading">Agent Catalog</h2>
+            <div class="catalog-grid">
+                <article class="pricing-card">
+                    <span class="badge">Free</span>
+                    <h3>CEO Agent</h3>
+                    <div class="price">$0 <span>/ month</span></div>
+                    <p>The strategic core of your AI company. Sets priorities, evaluates company health, and drives top-level decisions.</p>
+                    <ul>
+                        <li>Strategic decision-making</li>
+                        <li>Company direction & priorities</li>
+                        <li>Agent coordination</li>
+                        <li>Unlimited decisions</li>
+                    </ul>
+                    <a class="btn btn-muted" href="#dashboard">Get Started Free</a>
+                </article>
+                <article class="pricing-card featured">
+                    <span class="badge">Popular</span>
+                    <h3>Product Developer Agent</h3>
+                    <div class="price">$29 <span>/ month</span></div>
+                    <p>Translates company ideas and direction into concrete product improvements and new offerings.</p>
+                    <ul>
+                        <li>Product roadmap execution</li>
+                        <li>Feature scoping & iteration</li>
+                        <li>Idea-to-spec conversion</li>
+                        <li>Integrates with CEO Agent</li>
+                    </ul>
+                    <a class="btn btn-primary" href="#dashboard">Add to Company</a>
+                </article>
+                <article class="pricing-card">
+                    <span class="badge">Coming Soon</span>
+                    <h3>Finance Agent</h3>
+                    <div class="price">$39 <span>/ month</span></div>
+                    <p>Tracks revenue, manages budgets, and surfaces financial insights to keep your company profitable.</p>
+                    <ul>
+                        <li>Budget tracking & forecasting</li>
+                        <li>Revenue reporting</li>
+                        <li>Cost optimization suggestions</li>
+                        <li>Integrates with CEO Agent</li>
+                    </ul>
+                    <a class="btn btn-disabled" aria-disabled="true" role="button">Notify Me</a>
+                </article>
+            </div>
+
+            <table class="comparison-table" aria-label="Agent role comparison">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>CEO Agent</th>
+                        <th>Product Developer</th>
+                        <th>Finance Agent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Strategic decisions</td>
+                        <td class="check">✓</td>
+                        <td class="dash">—</td>
+                        <td class="dash">—</td>
+                    </tr>
+                    <tr>
+                        <td>Product roadmap execution</td>
+                        <td class="dash">—</td>
+                        <td class="check">✓</td>
+                        <td class="dash">—</td>
+                    </tr>
+                    <tr>
+                        <td>Budget &amp; finance oversight</td>
+                        <td class="dash">—</td>
+                        <td class="dash">—</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Agent coordination</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                        <td class="check">✓</td>
+                    </tr>
+                    <tr>
+                        <td>Free tier</td>
+                        <td class="check">✓</td>
+                        <td class="dash">—</td>
+                        <td class="dash">—</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Customer Dashboard -->
+        <section class="dashboard-section" id="dashboard" aria-labelledby="dashboard-heading">
+            <h2 id="dashboard-heading">Your Company Dashboard</h2>
+            <div class="dashboard-grid">
+                <div class="dash-panel">
+                    <h3>Agent Status</h3>
+                    <div class="agent-status-list">
+                        <div class="agent-status-row">
+                            <span class="agent-name">CEO Agent</span>
+                            <span class="status-pill status-active">Active</span>
+                        </div>
+                        <div class="agent-status-row">
+                            <span class="agent-name">Product Developer Agent</span>
+                            <span class="status-pill status-idle">Idle</span>
+                        </div>
+                        <div class="agent-status-row">
+                            <span class="agent-name">Finance Agent</span>
+                            <span class="status-pill status-pending">Pending</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dash-panel">
+                    <h3>Recent Decisions</h3>
+                    <div class="decisions-list">
+                        <div class="decision-item">
+                            <div class="decision-icon" aria-hidden="true">🧭</div>
+                            <div class="decision-body">
+                                <p class="decision-title">Prioritized Q2 product roadmap</p>
+                                <p class="decision-meta">CEO Agent &middot; 2 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="decision-item">
+                            <div class="decision-icon" aria-hidden="true">📦</div>
+                            <div class="decision-body">
+                                <p class="decision-title">Scoped agent catalog feature for launch</p>
+                                <p class="decision-meta">Product Developer Agent &middot; 5 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="decision-item">
+                            <div class="decision-icon" aria-hidden="true">📊</div>
+                            <div class="decision-body">
+                                <p class="decision-title">Reviewed monthly cost structure</p>
+                                <p class="decision-meta">CEO Agent &middot; 1 day ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <p class="footer">Statful is currently in early development. More agent departments are coming soon.</p>
