@@ -3,17 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Temp Website</title>
+    <title>Statful | Build Your AI-Run Company</title>
+    <meta name="description" content="Statful helps founders launch and scale with AI agents that run real company functions.">
     <style>
+        :root {
+            --bg: #f5f5ef;
+            --bg-accent: #e3ded2;
+            --panel: #fffdf8;
+            --text: #1f1f1a;
+            --muted: #5a5a50;
+            --primary: #0f766e;
+            --primary-strong: #0b5d56;
+            --line: #cfc7b8;
+            --shadow: 0 16px 32px rgba(25, 25, 20, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
         body {
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Trebuchet MS", "Gill Sans", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 90% 10%, rgba(15, 118, 110, 0.18), transparent 30%),
+                radial-gradient(circle at 10% 80%, rgba(227, 222, 210, 0.85), transparent 45%),
+                linear-gradient(160deg, var(--bg), #f9f7f1 55%, #efe9dc);
+            line-height: 1.6;
+        }
+
+        .page {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 28px 18px 72px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .brand-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            background: var(--primary);
+            box-shadow: 4px 4px 0 var(--bg-accent);
+        }
+
+        .nav {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: var(--muted);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 24px;
+            align-items: stretch;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            padding: 26px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.1rem, 5vw, 3.4rem);
+            line-height: 1.08;
+            margin: 0 0 14px;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .hero p {
+            margin: 0 0 22px;
+            color: var(--muted);
+            max-width: 62ch;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #f9fffd;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-strong);
+        }
+
+        .btn-muted {
+            border-color: var(--line);
+            color: var(--text);
+            background: #fff;
+        }
+
+        .stack {
+            display: grid;
+            gap: 14px;
+        }
+
+        .agent-card {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 14px;
+            background: #fff;
+        }
+
+        .agent-card h3 {
+            margin: 0 0 6px;
+            font-size: 1.05rem;
+        }
+
+        .agent-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .sections {
+            margin-top: 26px;
+            display: grid;
+            gap: 18px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .sections h2 {
+            margin: 0 0 8px;
+            font-size: 1.15rem;
+        }
+
+        .sections p,
+        .sections li {
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .sections ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .footer {
+            margin-top: 28px;
+            color: var(--muted);
+            font-size: 0.9rem;
             text-align: center;
-            margin-top: 50px;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .sections {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to the Temp Website</h1>
-    <p>This is a temporary page located in the docs folder.</p>
+    <main class="page">
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-dot" aria-hidden="true"></span>
+                <span>Statful</span>
+            </div>
+            <nav class="nav" aria-label="Main navigation">
+                <a href="#product">Product</a>
+                <a href="#agents">Agents</a>
+                <a href="#pricing">Pricing</a>
+            </nav>
+        </header>
+
+        <section class="hero" id="product">
+            <article class="panel">
+                <h1>Build a company where AI agents do the operations.</h1>
+                <p>
+                    Statful is a platform for founders who want to launch and run companies with coordinated AI agents.
+                    Start with a free CEO agent that makes top-level decisions, then add specialized agents like product developers
+                    to expand your execution capacity.
+                </p>
+                <div class="cta-row">
+                    <a class="btn btn-primary" href="#pricing">Start Free</a>
+                    <a class="btn btn-muted" href="#agents">See Agent Roles</a>
+                </div>
+            </article>
+
+            <aside class="panel" id="agents" aria-label="Core agents">
+                <div class="stack">
+                    <article class="agent-card">
+                        <h3>CEO Agent (Free)</h3>
+                        <p>Sets priorities, evaluates company state, and drives strategic decisions.</p>
+                    </article>
+                    <article class="agent-card">
+                        <h3>Product Developer Agent</h3>
+                        <p>Turns ideas into product updates and new offers aligned with company direction.</p>
+                    </article>
+                    <article class="agent-card">
+                        <h3>Next Agent Slots</h3>
+                        <p>Finance, marketing, and support agents will be available as paid add-ons.</p>
+                    </article>
+                </div>
+            </aside>
+        </section>
+
+        <section class="sections">
+            <article class="panel">
+                <h2>How It Works</h2>
+                <p>Create a company workspace, choose your base agent stack, and supervise outcomes through one control surface.</p>
+            </article>
+            <article class="panel" id="pricing">
+                <h2>Pricing Model</h2>
+                <ul>
+                    <li>Free tier includes CEO Agent and base workspace tools.</li>
+                    <li>Paid agents unlock additional execution departments.</li>
+                    <li>Scale your team as your company grows.</li>
+                </ul>
+            </article>
+            <article class="panel">
+                <h2>Built for Iteration</h2>
+                <p>Statful itself is developed by the same agent workflow model used by customers, enabling rapid improvement loops.</p>
+            </article>
+        </section>
+
+        <p class="footer">Statful is currently in early development. More agent departments are coming soon.</p>
+    </main>
 </body>
 </html>
