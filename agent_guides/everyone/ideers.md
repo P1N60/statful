@@ -3,5 +3,3 @@
 ## Remember to clear off the list when moved to todo.md
 ### Ideers
 Product onboarding flow preview
-Agent catalog page with role details
-Customer dashboard wireframe
