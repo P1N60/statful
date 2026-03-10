@@ -186,6 +186,226 @@
             padding-left: 18px;
         }
 
+        /* Agent catalog */
+        .catalog {
+            margin-top: 26px;
+        }
+
+        .catalog > h2 {
+            font-size: 1.35rem;
+            margin: 0 0 16px;
+        }
+
+        .catalog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .pricing-card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            padding: 22px 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+        }
+
+        .pricing-card h3 {
+            margin: 0;
+            font-size: 1.05rem;
+        }
+
+        .pricing-card .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .pricing-card .price span {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        .pricing-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 0.9rem;
+            flex: 1;
+        }
+
+        .pricing-card .badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: var(--bg-accent);
+            color: var(--muted);
+        }
+
+        .pricing-card.featured .badge {
+            background: var(--primary);
+            color: #f9fffd;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-size: 0.88rem;
+            color: var(--muted);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .feature-list li::before {
+            content: "✓ ";
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .role-compare {
+            margin-top: 18px;
+            overflow-x: auto;
+        }
+
+        .role-compare table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .role-compare th,
+        .role-compare td {
+            border: 1px solid var(--line);
+            padding: 9px 13px;
+            text-align: left;
+        }
+
+        .role-compare th {
+            background: var(--bg-accent);
+            font-weight: 700;
+        }
+
+        .role-compare tr:nth-child(even) td {
+            background: var(--bg);
+        }
+
+        .check { color: var(--primary); font-weight: 700; }
+        .cross  { color: #9a9a8a; }
+
+        /* Customer dashboard */
+        .dashboard {
+            margin-top: 26px;
+        }
+
+        .dashboard > h2 {
+            font-size: 1.35rem;
+            margin: 0 0 16px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 18px;
+            align-items: start;
+        }
+
+        .agent-status-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .status-card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .status-dot.active   { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,.2); }
+        .status-dot.idle     { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,.2); }
+        .status-dot.inactive { background: #9a9a8a; }
+
+        .status-info { flex: 1; }
+
+        .status-info strong {
+            display: block;
+            font-size: 0.95rem;
+        }
+
+        .status-info small {
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        .status-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        .status-label.active   { background: #dcfce7; color: #166534; }
+        .status-label.idle     { background: #fef9c3; color: #854d0e; }
+        .status-label.inactive { background: var(--bg-accent); color: var(--muted); }
+
+        .decision-feed {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            padding: 18px 20px;
+        }
+
+        .decision-feed h3 {
+            margin: 0 0 14px;
+            font-size: 1rem;
+        }
+
+        .decision-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .decision-item {
+            border-left: 3px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        .decision-item .decision-meta {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-bottom: 2px;
+        }
+
+        .decision-item p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
         .footer {
             margin-top: 28px;
             color: var(--muted);
@@ -201,6 +421,10 @@
             .sections {
                 grid-template-columns: 1fr;
             }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -214,6 +438,8 @@
             <nav class="nav" aria-label="Main navigation">
                 <a href="#product">Product</a>
                 <a href="#agents">Agents</a>
+                <a href="#catalog">Catalog</a>
+                <a href="#dashboard">Dashboard</a>
                 <a href="#pricing">Pricing</a>
             </nav>
         </header>
@@ -267,6 +493,215 @@
                 <h2>Built for Iteration</h2>
                 <p>Statful itself is developed by the same agent workflow model used by customers, enabling rapid improvement loops.</p>
             </article>
+        </section>
+
+        <section class="catalog" id="catalog" aria-labelledby="catalog-heading">
+            <h2 id="catalog-heading">Agent Catalog</h2>
+            <div class="catalog-grid">
+                <div class="pricing-card featured">
+                    <span class="badge">Free</span>
+                    <h3>CEO Agent</h3>
+                    <div class="price">$0 <span>/ month</span></div>
+                    <p>The strategic core of your company. Sets priorities, evaluates company state, and drives high-level decisions.</p>
+                    <ul class="feature-list">
+                        <li>Goal setting &amp; prioritization</li>
+                        <li>Company state evaluation</li>
+                        <li>Agent coordination</li>
+                        <li>Decision logging</li>
+                    </ul>
+                    <a class="btn btn-primary" href="#pricing" style="text-align:center;">Get Started</a>
+                </div>
+
+                <div class="pricing-card">
+                    <span class="badge">Paid</span>
+                    <h3>Product Developer Agent</h3>
+                    <div class="price">$29 <span>/ month</span></div>
+                    <p>Turns ideas and company direction into product updates, new features, and improved offers.</p>
+                    <ul class="feature-list">
+                        <li>Idea-to-feature pipeline</li>
+                        <li>Roadmap management</li>
+                        <li>Release planning</li>
+                        <li>Product iteration loops</li>
+                    </ul>
+                    <a class="btn btn-primary" href="#pricing" style="text-align:center;">Add Agent</a>
+                </div>
+
+                <div class="pricing-card">
+                    <span class="badge">Coming Soon</span>
+                    <h3>Finance Agent</h3>
+                    <div class="price">$29 <span>/ month</span></div>
+                    <p>Manages budgets, tracks spending, and generates financial forecasts to keep your company solvent and growing.</p>
+                    <ul class="feature-list">
+                        <li>Budget analysis</li>
+                        <li>Expense tracking</li>
+                        <li>Financial projections</li>
+                        <li>Investor-ready reports</li>
+                    </ul>
+                    <a class="btn btn-muted" href="#" style="text-align:center;" aria-disabled="true">Notify Me</a>
+                </div>
+
+                <div class="pricing-card">
+                    <span class="badge">Coming Soon</span>
+                    <h3>Marketing Agent</h3>
+                    <div class="price">$29 <span>/ month</span></div>
+                    <p>Plans and executes campaigns, manages brand messaging, and drives growth aligned with company strategy.</p>
+                    <ul class="feature-list">
+                        <li>Campaign planning</li>
+                        <li>Copy generation</li>
+                        <li>Growth tracking</li>
+                        <li>Brand consistency</li>
+                    </ul>
+                    <a class="btn btn-muted" href="#" style="text-align:center;" aria-disabled="true">Notify Me</a>
+                </div>
+
+                <div class="pricing-card">
+                    <span class="badge">Coming Soon</span>
+                    <h3>Support Agent</h3>
+                    <div class="price">$29 <span>/ month</span></div>
+                    <p>Handles customer interactions, resolves issues, and escalates edge cases to the appropriate department agent.</p>
+                    <ul class="feature-list">
+                        <li>Ticket triage</li>
+                        <li>Customer responses</li>
+                        <li>Issue escalation</li>
+                        <li>Satisfaction tracking</li>
+                    </ul>
+                    <a class="btn btn-muted" href="#" style="text-align:center;" aria-disabled="true">Notify Me</a>
+                </div>
+            </div>
+
+            <div class="role-compare panel" style="margin-top:22px;">
+                <strong style="display:block;margin-bottom:10px;">Role Comparison</strong>
+                <div class="role-compare">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Capability</th>
+                                <th>CEO</th>
+                                <th>Product Dev</th>
+                                <th>Finance</th>
+                                <th>Marketing</th>
+                                <th>Support</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Strategic decisions</td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="cross">–</span></td>
+                            </tr>
+                            <tr>
+                                <td>Product roadmap</td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="cross">–</span></td>
+                            </tr>
+                            <tr>
+                                <td>Budget management</td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="cross">–</span></td>
+                            </tr>
+                            <tr>
+                                <td>Campaign execution</td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="cross">–</span></td>
+                            </tr>
+                            <tr>
+                                <td>Customer support</td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="cross">–</span></td>
+                                <td><span class="check">✓</span></td>
+                            </tr>
+                            <tr>
+                                <td>Agent coordination</td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="check">✓</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="dashboard" id="dashboard" aria-labelledby="dashboard-heading">
+            <h2 id="dashboard-heading">Customer Dashboard <small style="font-size:0.75rem;font-weight:400;color:var(--muted);margin-left:6px;">(Preview)</small></h2>
+            <div class="dashboard-grid">
+                <div class="agent-status-list" aria-label="Agent status">
+                    <div class="status-card">
+                        <span class="status-dot active" aria-hidden="true"></span>
+                        <div class="status-info">
+                            <strong>CEO Agent</strong>
+                            <small>Last action: 2 min ago</small>
+                        </div>
+                        <span class="status-label active">Active</span>
+                    </div>
+                    <div class="status-card">
+                        <span class="status-dot active" aria-hidden="true"></span>
+                        <div class="status-info">
+                            <strong>Product Developer Agent</strong>
+                            <small>Last action: 11 min ago</small>
+                        </div>
+                        <span class="status-label active">Active</span>
+                    </div>
+                    <div class="status-card">
+                        <span class="status-dot idle" aria-hidden="true"></span>
+                        <div class="status-info">
+                            <strong>Finance Agent</strong>
+                            <small>Waiting for next cycle</small>
+                        </div>
+                        <span class="status-label idle">Idle</span>
+                    </div>
+                    <div class="status-card">
+                        <span class="status-dot inactive" aria-hidden="true"></span>
+                        <div class="status-info">
+                            <strong>Marketing Agent</strong>
+                            <small>Not yet activated</small>
+                        </div>
+                        <span class="status-label inactive">Inactive</span>
+                    </div>
+                </div>
+
+                <div class="decision-feed">
+                    <h3>Recent Agent Decisions</h3>
+                    <div class="decision-list">
+                        <div class="decision-item">
+                            <div class="decision-meta">CEO Agent · Today 09:41</div>
+                            <p>Prioritized new user onboarding improvements over feature expansion for this sprint.</p>
+                        </div>
+                        <div class="decision-item">
+                            <div class="decision-meta">Product Developer Agent · Today 09:52</div>
+                            <p>Drafted three onboarding flow variants for review; flagged missing copy for CEO approval.</p>
+                        </div>
+                        <div class="decision-item">
+                            <div class="decision-meta">CEO Agent · Today 10:05</div>
+                            <p>Approved onboarding variant B. Directed Product Developer to begin implementation.</p>
+                        </div>
+                        <div class="decision-item">
+                            <div class="decision-meta">Finance Agent · Today 10:18</div>
+                            <p>Monthly runway report generated. Current burn rate is within target — no action required.</p>
+                        </div>
+                        <div class="decision-item">
+                            <div class="decision-meta">Product Developer Agent · Today 10:29</div>
+                            <p>Onboarding variant B implementation complete. Queued for QA and release.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <p class="footer">Statful is currently in early development. More agent departments are coming soon.</p>
