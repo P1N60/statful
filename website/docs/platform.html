@@ -234,12 +234,13 @@
 
         .workspace-top h1 {
             margin: 0;
-            font-size: clamp(1.65rem, 3.3vw, 2.4rem);
+            font-size: clamp(1.25rem, 2.6vw, 1.85rem);
         }
 
         .workspace-top p {
             margin: 3px 0 0;
             color: var(--muted);
+            font-size: 0.92rem;
         }
 
         .top-actions {
@@ -254,7 +255,7 @@
             background: var(--white);
             color: var(--ink);
             font: inherit;
-            padding: 8px 12px;
+            padding: 7px 11px;
             cursor: pointer;
             box-shadow: 0 8px 18px rgba(6, 53, 43, 0.08);
         }
@@ -264,13 +265,12 @@
         }
 
         .board {
-            border: 1px solid #d4e3de;
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            background: rgba(255, 255, 255, 0.76);
-            backdrop-filter: blur(3px);
-            min-height: 700px;
-            padding: 18px;
+            position: relative;
+        }
+
+        .board-canvas {
+            width: 760px;
+            height: 460px;
             position: relative;
         }
 
@@ -278,6 +278,8 @@
             position: absolute;
             inset: 0;
             pointer-events: none;
+            width: 100%;
+            height: 100%;
         }
 
         .connectors path {
@@ -290,12 +292,13 @@
         }
 
         .cards {
-            min-height: 660px;
             position: relative;
+            width: 100%;
+            height: 100%;
         }
 
         .card {
-            width: min(330px, 94vw);
+            width: 226px;
             border: 3px solid;
             border-radius: var(--radius);
             background: var(--white);
@@ -307,22 +310,22 @@
 
         .card[data-role="ceo"] {
             border-color: var(--ceo);
-            left: 8%;
-            top: 208px;
+            left: 34px;
+            top: 92px;
             animation-delay: 0.04s;
         }
 
         .card[data-role="developer"] {
             border-color: var(--developer);
-            right: 7%;
-            top: 22px;
+            left: 468px;
+            top: 18px;
             animation-delay: 0.1s;
         }
 
         .card[data-role="finance"] {
             border-color: var(--finance);
-            right: 7%;
-            top: 392px;
+            left: 468px;
+            top: 286px;
             animation-delay: 0.16s;
         }
 
@@ -349,7 +352,7 @@
 
         .role-name {
             margin: 0;
-            font-size: 1.48rem;
+            font-size: 1.24rem;
         }
 
         .status-chip {
@@ -363,9 +366,9 @@
         }
 
         .card-body {
-            padding: 16px;
+            padding: 10px;
             display: grid;
-            gap: 10px;
+            gap: 7px;
         }
 
         .label {
@@ -379,13 +382,13 @@
 
         .task {
             margin: 0;
-            border: 1px dashed #d6e3df;
-            border-radius: 12px;
-            min-height: 108px;
-            padding: 11px;
+            border: 0;
+            border-radius: 0;
+            min-height: 0;
+            padding: 0;
             line-height: 1.45;
-            background: #f8fcfa;
-            font-size: 1.09rem;
+            background: transparent;
+            font-size: 0.86rem;
         }
 
         .meta {
@@ -601,6 +604,12 @@
                 display: none;
             }
 
+            .board-canvas {
+                width: 100%;
+                height: auto;
+                min-height: 0;
+            }
+
             .cards {
                 min-height: auto;
                 display: grid;
@@ -614,10 +623,6 @@
 
             .connectors {
                 display: none;
-            }
-
-            .board {
-                min-height: auto;
             }
         }
 
@@ -636,9 +641,8 @@
                 width: 100%;
             }
 
-            .board {
-                padding: 12px;
-                border-radius: 16px;
+            .board-canvas {
+                width: 100%;
             }
         }
     </style>
@@ -684,14 +688,16 @@
             </header>
 
             <div class="board">
-                <svg class="connectors" viewBox="0 0 1200 760" preserveAspectRatio="none" aria-hidden="true">
-                    <path d="M 402 338 C 556 252, 646 224, 812 176" stroke="#efbe08"></path>
-                    <path d="M 404 378 C 556 504, 653 546, 814 555" stroke="#3577f3"></path>
-                    <path d="M 404 398 C 560 548, 654 605, 814 600" stroke="#17b25a"></path>
-                </svg>
+                <div class="board-canvas" id="boardCanvas">
+                    <svg class="connectors" viewBox="0 0 760 460" preserveAspectRatio="none" aria-hidden="true">
+                        <path id="line-ceo-dev" d="M 286 142 C 356 124, 416 96, 468 84" stroke="#efbe08"></path>
+                        <path id="line-ceo-fin" d="M 286 178 C 356 196, 416 228, 468 252" stroke="#efbe08"></path>
+                        <path id="line-dev-ceo" d="M 468 112 C 420 124, 352 146, 286 154" stroke="#3577f3"></path>
+                        <path id="line-fin-ceo" d="M 468 292 C 420 266, 352 208, 286 172" stroke="#17b25a"></path>
+                    </svg>
 
-                <div class="cards">
-                    <article class="card" data-role="ceo" id="card-ceo">
+                    <div class="cards">
+                        <article class="card" data-role="ceo" id="card-ceo">
                         <header class="card-head">
                             <h3 class="role-name">CEO</h3>
                             <span class="status-chip" data-status="ceo">Thinking</span>
@@ -708,9 +714,9 @@
                                 <button class="card-btn primary" data-edit="ceo" type="button">Edit</button>
                             </div>
                         </div>
-                    </article>
+                            </article>
 
-                    <article class="card" data-role="developer" id="card-developer">
+                            <article class="card" data-role="developer" id="card-developer">
                         <header class="card-head">
                             <h3 class="role-name">Developer</h3>
                             <span class="status-chip" data-status="developer">Thinking</span>
@@ -727,9 +733,9 @@
                                 <button class="card-btn primary" data-edit="developer" type="button">Edit</button>
                             </div>
                         </div>
-                    </article>
+                            </article>
 
-                    <article class="card" data-role="finance" id="card-finance">
+                            <article class="card" data-role="finance" id="card-finance">
                         <header class="card-head">
                             <h3 class="role-name">Finance</h3>
                             <span class="status-chip" data-status="finance">Thinking</span>
@@ -746,7 +752,8 @@
                                 <button class="card-btn primary" data-edit="finance" type="button">Edit</button>
                             </div>
                         </div>
-                    </article>
+                        </article>
+                    </div>
                 </div>
             </div>
         </section>
@@ -834,12 +841,21 @@
         const panelActions = document.getElementById("panelActions");
         const refreshTasks = document.getElementById("refreshTasks");
         const toast = document.getElementById("toast");
+        const boardCanvas = document.getElementById("boardCanvas");
+        const cardCeo = document.getElementById("card-ceo");
+        const cardDeveloper = document.getElementById("card-developer");
+        const cardFinance = document.getElementById("card-finance");
+        const lineCeoDev = document.getElementById("line-ceo-dev");
+        const lineCeoFin = document.getElementById("line-ceo-fin");
+        const lineDevCeo = document.getElementById("line-dev-ceo");
+        const lineFinCeo = document.getElementById("line-fin-ceo");
 
         let panelRole = null;
         let panelMode = null;
 
         menuToggle.addEventListener("click", () => {
             menuPane.classList.toggle("collapsed");
+            window.setTimeout(updateConnectorPaths, 220);
         });
 
         saveCompanyInstruction.addEventListener("click", () => {
@@ -877,7 +893,63 @@
         companyInstruction.value = state.companyInstruction;
         updateAllTasks("initial");
         renderBoard();
+        updateConnectorPaths();
         startTaskTicker();
+
+        window.addEventListener("resize", updateConnectorPaths);
+
+        function updateConnectorPaths() {
+            if (window.matchMedia("(max-width: 1120px)").matches) {
+                return;
+            }
+
+            const ceo = getCardAnchors(cardCeo);
+            const developer = getCardAnchors(cardDeveloper);
+            const finance = getCardAnchors(cardFinance);
+
+            if (!ceo || !developer || !finance) {
+                return;
+            }
+
+            lineCeoDev.setAttribute("d", makeCurve(ceo.rightTop, developer.leftUpper, 1));
+            lineCeoFin.setAttribute("d", makeCurve(ceo.rightBottom, finance.leftUpper, 1));
+            lineDevCeo.setAttribute("d", makeCurve(developer.leftMid, ceo.rightMidUpper, -1));
+            lineFinCeo.setAttribute("d", makeCurve(finance.leftMid, ceo.rightMidLower, -1));
+        }
+
+        function getCardAnchors(cardNode) {
+            if (!cardNode || !boardCanvas) {
+                return null;
+            }
+
+            const boardRect = boardCanvas.getBoundingClientRect();
+            const rect = cardNode.getBoundingClientRect();
+
+            const left = rect.left - boardRect.left;
+            const right = rect.right - boardRect.left;
+            const top = rect.top - boardRect.top;
+            const height = rect.height;
+
+            return {
+                leftUpper: point(left - 4, top + height * 0.34),
+                leftMid: point(left - 4, top + height * 0.52),
+                rightTop: point(right + 4, top + height * 0.34),
+                rightBottom: point(right + 4, top + height * 0.66),
+                rightMidUpper: point(right + 4, top + height * 0.44),
+                rightMidLower: point(right + 4, top + height * 0.58)
+            };
+        }
+
+        function point(x, y) {
+            return { x: Math.round(x), y: Math.round(y) };
+        }
+
+        function makeCurve(start, end, sourceDirection) {
+            const offset = 78;
+            const c1x = start.x + (offset * sourceDirection);
+            const c2x = end.x - (offset * sourceDirection);
+            return `M ${start.x} ${start.y} C ${c1x} ${start.y}, ${c2x} ${end.y}, ${end.x} ${end.y}`;
+        }
 
         function loadState() {
             const base = {
