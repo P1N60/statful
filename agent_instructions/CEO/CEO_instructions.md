@@ -1,4 +1,4 @@
-# CEO guide
+# CEO instructions
 ### Behavior
 Evaluate the current state of the company as a whole. 
 Write any needed patches into the ideers file.
