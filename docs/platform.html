@@ -683,8 +683,9 @@
                     <p>Live snapshot of agent thinking, current task outputs, and behavior context.</p>
                 </div>
                 <div class="top-actions">
+                    <button class="action-btn" type="button" id="spawnCeo">Spawn CEO Agent</button>
+                    <button class="action-btn" type="button" id="runCeo">Run CEO Agent</button>
                     <button class="action-btn" type="button" id="refreshTasks">Refresh Agent Thinking</button>
-                    <a class="action-btn" href="prototype.html" style="text-decoration:none;display:inline-flex;align-items:center;">Open Local Prototype</a>
                 </div>
             </header>
 
@@ -776,6 +777,7 @@
 
     <script>
         const STORAGE_KEY = "statful-platform-v2";
+        const API_BASE = "http://localhost:3000";
         const COMPANY_DEFAULT = "Company information\nCompany name: \nCountry: ";
 
         const instructionFiles = {
@@ -840,6 +842,8 @@
         const panelTitle = document.getElementById("panelTitle");
         const panelContent = document.getElementById("panelContent");
         const panelActions = document.getElementById("panelActions");
+        const spawnCeo = document.getElementById("spawnCeo");
+        const runCeo = document.getElementById("runCeo");
         const refreshTasks = document.getElementById("refreshTasks");
         const toast = document.getElementById("toast");
         const boardCanvas = document.getElementById("boardCanvas");
@@ -866,7 +870,11 @@
             showToast("Company information saved.");
         });
 
-        refreshTasks.addEventListener("click", () => {
+        spawnCeo.addEventListener("click", spawnCeoAgent);
+        runCeo.addEventListener("click", runCeoAgent);
+
+        refreshTasks.addEventListener("click", async () => {
+            await syncCeoFromBackend();
             updateAllTasks("manual refresh");
             showToast("Agent tasks updated from current thinking cycle.");
         });
@@ -894,6 +902,7 @@
         companyInstruction.value = state.companyInstruction;
         updateAllTasks("initial");
         renderBoard();
+        syncCeoFromBackend();
         updateConnectorPaths();
         startTaskTicker();
 
@@ -955,6 +964,7 @@
         function loadState() {
             const base = {
                 companyInstruction: COMPANY_DEFAULT,
+                ceoBackendAgentId: null,
                 agents: {
                     ceo: agentDefaults("ceo"),
                     developer: agentDefaults("developer"),
@@ -970,6 +980,7 @@
 
                 return {
                     companyInstruction: normalizeCompanyInstruction(stored.companyInstruction || COMPANY_DEFAULT),
+                    ceoBackendAgentId: stored.ceoBackendAgentId || null,
                     agents: {
                         ceo: normalizeAgent(stored.agents && stored.agents.ceo, "ceo"),
                         developer: normalizeAgent(stored.agents && stored.agents.developer, "developer"),
@@ -1059,6 +1070,9 @@
         function updateAllTasks(reason) {
             const now = Date.now();
             ["ceo", "developer", "finance"].forEach((role) => {
+                if (role === "ceo" && state.ceoBackendAgentId) {
+                    return;
+                }
                 const agent = state.agents[role];
                 const pool = roleConfig[role].taskPool;
                 const index = Math.abs(Math.floor((now / 90000) + role.length + (reason === "manual refresh" ? 1 : 0))) % pool.length;
@@ -1090,22 +1104,49 @@
             }
         }
 
-        function openLogs(role) {
+        async function openLogs(role) {
             const agent = state.agents[role];
             panelRole = role;
             panelMode = "logs";
             panelTitle.textContent = `${roleConfig[role].title} Logs`;
 
-            panelContent.innerHTML = `
-                <section class="group">
-                    <label>Internal dialog</label>
-                    <p class="instr-meta">${escapeHtml(agent.dialogLogs.join("\n"))}</p>
-                </section>
-                <section class="group">
-                    <label>Memory logs</label>
-                    <p class="instr-meta">${escapeHtml(agent.memoryLogs.join("\n"))}</p>
-                </section>
-            `;
+            if (role === "ceo" && state.ceoBackendAgentId) {
+                try {
+                    const res = await fetch(`${API_BASE}/api/agents/${state.ceoBackendAgentId}/logs?limit=20`);
+                    const data = await res.json();
+                    const backendEvents = (data.events || []).map((e) => `${e.createdAt || ""} ${e.message}`);
+                    const backendRuns = (data.runs || []).map((r) => `${r.finishedAt || r.startedAt || ""} ${r.status}: ${r.outputSummary || r.inputPrompt || "(no summary)"}`);
+
+                    panelContent.innerHTML = `
+                        <section class="group">
+                            <label>Backend runs</label>
+                            <p class="instr-meta">${escapeHtml((backendRuns.length ? backendRuns : ["No runs yet."]).join("\n"))}</p>
+                        </section>
+                        <section class="group">
+                            <label>Backend events</label>
+                            <p class="instr-meta">${escapeHtml((backendEvents.length ? backendEvents : ["No events yet."]).join("\n"))}</p>
+                        </section>
+                    `;
+                } catch {
+                    panelContent.innerHTML = `
+                        <section class="group">
+                            <label>Logs</label>
+                            <p class="instr-meta">Failed to load backend logs.</p>
+                        </section>
+                    `;
+                }
+            } else {
+                panelContent.innerHTML = `
+                    <section class="group">
+                        <label>Internal dialog</label>
+                        <p class="instr-meta">${escapeHtml(agent.dialogLogs.join("\n"))}</p>
+                    </section>
+                    <section class="group">
+                        <label>Memory logs</label>
+                        <p class="instr-meta">${escapeHtml(agent.memoryLogs.join("\n"))}</p>
+                    </section>
+                `;
+            }
 
             panelActions.innerHTML = `
                 <button class="action-btn" type="button" id="closeLogsBtn">Close</button>
@@ -1189,6 +1230,88 @@
             panelWrap.setAttribute("aria-hidden", "true");
             panelRole = null;
             panelMode = null;
+        }
+
+        async function spawnCeoAgent() {
+            try {
+                const res = await fetch(`${API_BASE}/api/companies/company_local_1/agents`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        templateId: "tpl_ceo",
+                        name: "CEO",
+                        role: "ceo",
+                        context: { companyInformation: state.companyInstruction }
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data?.error || "Failed to spawn CEO agent");
+
+                state.ceoBackendAgentId = data.agentId;
+                state.agents.ceo.status = "idle";
+                state.agents.ceo.updatedAt = Date.now();
+                pushLog(state.agents.ceo.dialogLogs, `${timeStamp(Date.now())} Spawned backend CEO agent: ${data.agentId}`);
+                persistState();
+                renderBoard();
+                showToast("CEO agent spawned on board.");
+            } catch (error) {
+                showToast(`Spawn failed: ${error.message}`);
+            }
+        }
+
+        async function runCeoAgent() {
+            if (!state.ceoBackendAgentId) {
+                showToast("Spawn CEO first.");
+                return;
+            }
+
+            try {
+                state.agents.ceo.status = "running";
+                state.agents.ceo.updatedAt = Date.now();
+                renderBoard();
+
+                const res = await fetch(`${API_BASE}/api/agents/${state.ceoBackendAgentId}/run`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        triggerType: "manual",
+                        task: "Review company direction and output one high-impact action item."
+                    })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data?.error || "Run failed");
+
+                state.agents.ceo.task = data.summary || "Run completed.";
+                state.agents.ceo.status = "idle";
+                state.agents.ceo.updatedAt = Date.now();
+                pushLog(state.agents.ceo.dialogLogs, `${timeStamp(Date.now())} ${data.summary || "Run completed."}`);
+                persistState();
+                renderBoard();
+                showToast("CEO run complete.");
+            } catch (error) {
+                state.agents.ceo.status = "error";
+                renderBoard();
+                showToast(`Run failed: ${error.message}`);
+            }
+        }
+
+        async function syncCeoFromBackend() {
+            if (!state.ceoBackendAgentId) return;
+            try {
+                const res = await fetch(`${API_BASE}/api/agents/${state.ceoBackendAgentId}/logs?limit=10`);
+                const data = await res.json();
+                if (!res.ok) return;
+                const latestRun = Array.isArray(data.runs) ? data.runs[0] : null;
+                if (latestRun?.outputSummary) {
+                    state.agents.ceo.task = latestRun.outputSummary;
+                    state.agents.ceo.status = latestRun.status === "running" ? "running" : "idle";
+                    state.agents.ceo.updatedAt = Date.now();
+                    persistState();
+                    renderBoard();
+                }
+            } catch {
+                // best effort sync
+            }
         }
 
         function formatRelative(timestamp) {
