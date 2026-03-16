@@ -308,6 +308,10 @@
             animation: rise 0.44s ease both;
         }
 
+        .card.hidden {
+            display: none;
+        }
+
         .card[data-role="ceo"] {
             border-color: var(--ceo);
             left: 34px;
@@ -1050,16 +1054,23 @@
         }
 
         function renderBoard() {
+            const ceoSpawned = Boolean(state.ceoBackendAgentId);
+
+            cardDeveloper.classList.add("hidden");
+            cardFinance.classList.add("hidden");
+            if (!ceoSpawned) {
+                cardCeo.classList.add("hidden");
+            } else {
+                cardCeo.classList.remove("hidden");
+            }
+
             ["ceo", "developer", "finance"].forEach((role) => {
                 const agent = state.agents[role];
                 const taskNode = document.getElementById(`task-${role}`);
                 const statusNode = document.querySelector(`[data-status="${role}"]`);
                 const updatedNode = document.querySelector(`[data-updated="${role}"]`);
 
-                if (role === "ceo" && !state.ceoBackendAgentId) {
-                    if (taskNode) taskNode.textContent = "Not spawned yet. Click 'Spawn CEO Agent'.";
-                    if (statusNode) statusNode.textContent = "Not Spawned";
-                    if (updatedNode) updatedNode.textContent = "Updated: -";
+                if (role === "ceo" && !ceoSpawned) {
                     return;
                 }
 
@@ -1073,6 +1084,11 @@
                     updatedNode.textContent = `Updated: ${formatRelative(agent.updatedAt)}`;
                 }
             });
+
+            lineCeoDev.style.display = "none";
+            lineCeoFin.style.display = "none";
+            lineDevCeo.style.display = "none";
+            lineFinCeo.style.display = "none";
         }
 
         function updateAllTasks(reason) {
