@@ -39,9 +39,9 @@ Define and implement how a platform agent is created and operated using OpenClaw
 
 ## Next implementation step
 Implement backend in this order:
-- [ ] DB tables/migrations
-- [ ] `POST /api/companies/:companyId/agents`
-- [ ] `POST /api/agents/:agentId/run`
-- [ ] `GET /api/agents/:agentId/logs`
-- [ ] `PATCH /api/agents/:agentId`
+- [x] DB tables/migrations (scaffolded in `backend/migrations/001_agent_runtime.sql`)
+- [x] `POST /api/companies/:companyId/agents` (stubbed)
+- [x] `POST /api/agents/:agentId/run` (stubbed)
+- [x] `GET /api/agents/:agentId/logs` (stubbed)
+- [x] `PATCH /api/agents/:agentId` (stubbed)
 - [ ] Heartbeat scheduler worker
