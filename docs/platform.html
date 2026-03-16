@@ -994,10 +994,11 @@
 
         function agentDefaults(role) {
             const now = Date.now();
+            const isCeo = role === "ceo";
             return {
                 role,
-                task: roleConfig[role].taskPool[0],
-                status: "thinking",
+                task: isCeo ? "Not spawned yet. Click 'Spawn CEO Agent'." : roleConfig[role].taskPool[0],
+                status: isCeo ? "not spawned" : "thinking",
                 updatedAt: now,
                 memoryLogs: [
                     `${timeStamp(now)} Memory initialized from ${instructionFiles.defaultPath}.`,
@@ -1055,6 +1056,13 @@
                 const statusNode = document.querySelector(`[data-status="${role}"]`);
                 const updatedNode = document.querySelector(`[data-updated="${role}"]`);
 
+                if (role === "ceo" && !state.ceoBackendAgentId) {
+                    if (taskNode) taskNode.textContent = "Not spawned yet. Click 'Spawn CEO Agent'.";
+                    if (statusNode) statusNode.textContent = "Not Spawned";
+                    if (updatedNode) updatedNode.textContent = "Updated: -";
+                    return;
+                }
+
                 if (taskNode) {
                     taskNode.textContent = agent.task;
                 }
@@ -1070,7 +1078,7 @@
         function updateAllTasks(reason) {
             const now = Date.now();
             ["ceo", "developer", "finance"].forEach((role) => {
-                if (role === "ceo" && state.ceoBackendAgentId) {
+                if (role === "ceo" && !state.ceoBackendAgentId) {
                     return;
                 }
                 const agent = state.agents[role];
@@ -1105,6 +1113,10 @@
         }
 
         async function openLogs(role) {
+            if (role === "ceo" && !state.ceoBackendAgentId) {
+                showToast("Spawn CEO first.");
+                return;
+            }
             const agent = state.agents[role];
             panelRole = role;
             panelMode = "logs";
