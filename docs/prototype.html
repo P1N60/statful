@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Statful Prototype | Local Agent Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 24px auto; padding: 0 12px; }
+    .card { border: 1px solid #ccc; border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+    input, textarea, button { font: inherit; padding: 8px; }
+    input, textarea { width: 100%; margin: 6px 0 10px; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; }
+    button { cursor: pointer; }
+    pre { background: #f6f6f6; padding: 10px; border-radius: 8px; overflow: auto; }
+    .muted { color: #555; }
+  </style>
+</head>
+<body>
+  <h1>Statful Local Prototype</h1>
+  <p class="muted">Create a test agent from the platform and run it on this machine (localhost backend).</p>
+
+  <div class="card">
+    <h2>Create Test Agent</h2>
+    <label>Company ID</label>
+    <input id="companyId" value="company_local_1" />
+    <label>Agent Name</label>
+    <input id="agentName" value="CEO Test Agent" />
+    <label>Role</label>
+    <input id="agentRole" value="ceo" />
+    <button id="createBtn">Create Agent</button>
+  </div>
+
+  <div class="card">
+    <h2>Agents</h2>
+    <button id="refreshBtn">Refresh Agents</button>
+    <div id="agents"></div>
+  </div>
+
+  <div class="card">
+    <h2>Output</h2>
+    <pre id="output">Ready.</pre>
+  </div>
+
+  <script>
+    const API = 'http://localhost:3000';
+    const output = document.getElementById('output');
+    const agentsEl = document.getElementById('agents');
+
+    function setOutput(value) {
+      output.textContent = typeof value === 'string' ? value : JSON.stringify(value, null, 2);
+    }
+
+    async function refreshAgents() {
+      try {
+        const res = await fetch(`${API}/api/agents`);
+        const data = await res.json();
+        renderAgents(data.agents || []);
+      } catch (err) {
+        setOutput(`Failed to load agents: ${err.message}`);
+      }
+    }
+
+    function renderAgents(agents) {
+      if (!agents.length) {
+        agentsEl.innerHTML = '<p class="muted">No agents yet.</p>';
+        return;
+      }
+
+      agentsEl.innerHTML = agents.map((a) => `
+        <div class="card">
+          <strong>${a.name}</strong> (${a.role})<br/>
+          Status: ${a.status}<br/>
+          ID: ${a.id}<br/>
+          Session: ${a.openclawSessionKey || '(none)'}
+          <div class="row" style="margin-top:8px;">
+            <button data-run="${a.id}">Run Agent</button>
+            <button data-logs="${a.id}">View Logs</button>
+          </div>
+        </div>
+      `).join('');
+
+      document.querySelectorAll('[data-run]').forEach((btn) => {
+        btn.onclick = () => runAgent(btn.getAttribute('data-run'));
+      });
+      document.querySelectorAll('[data-logs]').forEach((btn) => {
+        btn.onclick = () => viewLogs(btn.getAttribute('data-logs'));
+      });
+    }
+
+    async function runAgent(agentId) {
+      try {
+        const res = await fetch(`${API}/api/agents/${agentId}/run`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ triggerType: 'manual', task: 'Generate one useful company action item.' })
+        });
+        const data = await res.json();
+        setOutput(data);
+        refreshAgents();
+      } catch (err) {
+        setOutput(`Run failed: ${err.message}`);
+      }
+    }
+
+    async function viewLogs(agentId) {
+      try {
+        const res = await fetch(`${API}/api/agents/${agentId}/logs?limit=50`);
+        const data = await res.json();
+        setOutput(data);
+      } catch (err) {
+        setOutput(`Logs failed: ${err.message}`);
+      }
+    }
+
+    document.getElementById('createBtn').onclick = async () => {
+      const companyId = document.getElementById('companyId').value.trim();
+      const name = document.getElementById('agentName').value.trim();
+      const role = document.getElementById('agentRole').value.trim();
+
+      try {
+        const res = await fetch(`${API}/api/companies/${encodeURIComponent(companyId)}/agents`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            templateId: `tpl_${role || 'custom'}`,
+            name,
+            role,
+            context: { companyGoal: 'Launch and validate prototype users' }
+          })
+        });
+
+        const data = await res.json();
+        setOutput(data);
+        refreshAgents();
+      } catch (err) {
+        setOutput(`Create failed: ${err.message}`);
+      }
+    };
+
+    document.getElementById('refreshBtn').onclick = refreshAgents;
+    refreshAgents();
+  </script>
+</body>
+</html>
