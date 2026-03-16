@@ -984,7 +984,7 @@
 
                 return {
                     companyInstruction: normalizeCompanyInstruction(stored.companyInstruction || COMPANY_DEFAULT),
-                    ceoBackendAgentId: stored.ceoBackendAgentId || null,
+                    ceoBackendAgentId: null,
                     agents: {
                         ceo: normalizeAgent(stored.agents && stored.agents.ceo, "ceo"),
                         developer: normalizeAgent(stored.agents && stored.agents.developer, "developer"),
