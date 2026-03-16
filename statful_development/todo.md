@@ -34,11 +34,14 @@ Define and implement how a platform agent is created and operated using OpenClaw
    - Retry + backoff + “blocked” state
    - Human approval gates for external actions (email/post/payment/delete)
 
+## Progress update
+- ✅ Drafted data model + API contract in `agent_runtime_spec.md`
+
 ## Next implementation step
-Draft:
-- Data model
-- API endpoints:
-  - Create agent
-  - Run cycle
-  - Fetch logs
-  - Update instructions
+Implement backend in this order:
+- [ ] DB tables/migrations
+- [ ] `POST /api/companies/:companyId/agents`
+- [ ] `POST /api/agents/:agentId/run`
+- [ ] `GET /api/agents/:agentId/logs`
+- [ ] `PATCH /api/agents/:agentId`
+- [ ] Heartbeat scheduler worker
