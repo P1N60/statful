@@ -3,4 +3,6 @@
 ## Remember to clear task off the list when completed, and move it to the completed file.
 ### Todo
 - [Medium][Developer] Add minimal CI checks (format + lint + smoke test runner) once codebase scaffolding exists.
-- [High][Developer] Expand scaffold into a tiny playable demo: add basic player input (move with arrows), simple collision, and an assets/ directory with placeholder sprite. (next development priority)
+- [High][Developer] Add basic gravity + jump and a floor/platform collision pass so movement starts to resemble a platformer.
+- [Low][Developer] Add simple sprite asset loading for the player (fallback to rectangle if missing) to begin using `assets/`.
+- Playtest the game by running it.
