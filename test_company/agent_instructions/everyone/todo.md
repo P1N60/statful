@@ -2,3 +2,4 @@
 ## Remember to be descriptive, state urgency and to state who should do the task
 ## Remember to clear task off the list when completed, and move it to the completed file.
 ### Todo
+- [High][Developer] Set up initial game project scaffolding (engine choice, folder structure, run/build script, README).
